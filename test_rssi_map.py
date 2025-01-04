@@ -195,12 +195,12 @@ def test(method,shuffle):
     print("Start MATLAB Engine...")
     matlab_eng = matlab.engine.start_matlab()
     current_directory = os.path.abspath(os.getcwd())
-    matlab_eng.addpath(os.path.join(current_directory, "src_v4.2.1", "matlab"))  # 加载MATLAB路径
+    matlab_eng.addpath(os.path.join(current_directory, "matlab"))  # 加载MATLAB路径
     current_path = os.path.dirname(os.path.abspath(__file__))
-    output_path = os.path.join(current_path, f"../output/spectrum_map/{method}/{shuffle}/")
+    output_path = os.path.join(current_path, f"./output/spectrum_map/{method}/{shuffle}/")
     if not os.path.exists(output_path):
         os.makedirs(output_path)
-    error_path = os.path.join(current_path, f"../output/spectrum_map/{method}_{shuffle}_distance_plot.png")
+    error_path = os.path.join(current_path, f"./output/spectrum_map/{method}_{shuffle}_distance_plot.png")
     print("MATLAB Engine started successfully!")
     i = 0
     transmitter_position_x = 20
@@ -235,12 +235,18 @@ def test(method,shuffle):
         i += 1
 
     matlab_eng.quit()  # 关闭MATLAB引擎，释放资源
-    output_gif_path = os.path.join(current_path, f"../output/spectrum_map/{method}_{shuffle}.gif")
+    output_gif_path = os.path.join(current_path, f"./output/spectrum_map/{method}_{shuffle}.gif")
     generate_gif(output_path, output_gif_path, duration=150)
 
 
 if __name__ == "__main__":
     shuffle = True
+    test('linear', shuffle)
+    test('spline', shuffle)
+    test('nearest', shuffle)
+    test('idw',shuffle)
+    
+    shuffle = False
     test('linear', shuffle)
     test('spline', shuffle)
     test('nearest', shuffle)
